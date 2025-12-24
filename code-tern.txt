@@ -1,0 +1,13 @@
+Figure 4e
+#############
+library(ggtern)
+plot_data = read.table("Tern_data.txt", header=T, row.names= 1, sep="\t", comment.char = "")
+p <- ggtern(data=plot_data, aes(x=CK, y=NPK, z=NPKM)) + 
+  geom_mask() + 
+  geom_point(aes(size=size, color=Genus),alpha=0.8) +
+  scale_size(range = c(0, 10)) +
+  scale_color_manual(values  = c('#E31A1C','#228B22','#1F78B4', '#FDB462', '#8B658B', '#EE82EE','#8B8682','#CDC9C9'), limits = c('Roseateles','Rhizobium','Pseudomonas','Novosphingobium','Chryseobacterium','Amycolatopsis','Others','NotSig')) +
+  guides(size="none") +theme_bw() +
+  theme(axis.text=element_blank(), axis.ticks=element_blank())
+p
+

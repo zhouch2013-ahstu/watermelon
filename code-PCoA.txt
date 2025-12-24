@@ -1,0 +1,52 @@
+Figure 1g
+###############
+library(vegan)
+otu = read.table("Reotu1.txt",sep="\t",header = T, row.names=1)
+bray.dist = vegdist(t(otu), method="bray")
+write.table(as.matrix(bray.dist), file = "Reotu-HA1.txt", sep="\t", col.names = NA)
+#一般做数据分析，OTU表的列名为处理名，行名为OTU名
+
+library(ape)
+nmds=read.table("Reotu-HA.txt",sep="\t",header = T, row.names=1)
+spe.h.pc=pcoa(nmds)#pcoa =cmdscale(nmds, k=2, eig=T)
+str(spe.h.pc)#记录一二轴解释率“Eigenvalues”
+spe.h.pcoa=spe.h.pc$vectors
+
+#pdf("ITS-rice-bray.pdf")
+#ggplot(spe.h.pcoa[,1:2],col=c
+#(7,7,7,7,1,1,1,1,2,2,2,2,8,8,8,8),xlim=c(min(spe.h.pcoa[,1]),max(spe.h.pcoa#[,1])),main="PCoA",cex=1.5,las=2,pch=c#(16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16))
+#abline(h=0,v=0,lwd=1,lty=2)
+#library("maptools")
+#pointLabel(x=spe.h.pcoa[,1],y=spe.h.pcoa[,2],labels=rownames#(spe.h.pcoa),cex=0.7,col=c(7,7,7,7,1,1,1,1,2,2,2,2,8,8,8,8))
+#dev.off()
+
+#(7,7,7,7,1,1,1,1,2,2,2,2,8,8,8,8)
+
+write.csv(spe.h.pcoa,"spe.h.pcoa.csv")
+library(ggplot2)
+spe.pcoa<-read.table(file="spe.h.txt",header=T,check.names=FALSE,sep="\t")
+pdf("taxa.pdf",width=6.25,height=5)
+p<-ggplot(spe.pcoa, aes(x=Axis.1, y=Axis.2,shape=Types, colour=Treatments)) + geom_point(size=5) +scale_shape_manual(values=c(16,17,18,19)) + scale_color_brewer(type="seq",palette="Set2") + theme_bw()+theme(
+  panel.background = element_rect(fill = "transparent",colour = NA))
+p
+dev.off()
+p
+
+library(ggplot2)
+spe.pcoa<-read.table(file="spe.h.txt",header=T,check.names=FALSE,sep="\t")
+pdf("taxa.pdf",width=6.25,height=5)
+p<-ggplot(spe.pcoa, aes(x=Axis.1, y=Axis.2,shape=Types, colour=Treatments)) + geom_point(size=5) + scale_shape_manual(values=c(16,17,18,19)) +scale_color_gradient2(low = "blue", mid = "white", high = "red", midpoint = mean(as.numeric(spe.pcoa$Treatments))) + theme_bw()+theme(panel.background = element_rect(fill = "transparent",colour = NA))
+p
+dev.off()
+p
+
+library(ggplot2)
+spe.pcoa<-read.table(file="spe.h.txt",header=T,check.names=FALSE,sep="\t")
+pdf("taxa.pdf",width=6.25,height=5)
+p<-ggplot(spe.pcoa, aes(x=Axis.1, y=Axis.2,shape=Types, colour=Treatments)) + geom_point(size=5) + scale_shape_manual(values=c(16,16,16,16)) +scale_color_gradient2(low = "blue", mid = "white", high = "red", midpoint = mean(as.numeric(spe.pcoa$Treatments))) + theme_bw()+theme(panel.background = element_rect(fill = "transparent",colour = NA))
+p
+dev.off()
+p
+
+
+
